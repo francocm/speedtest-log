@@ -39,7 +39,7 @@ Tested on the following setups:
 
 ### Steps
 
-1. Clone this project: `git clone <todo_url_here>`
+1. Clone this project: `git clone https://github.com/francocm/speedtest-log.git`
 2. Run: `cd speedtest-log`
 3. **Optional**: Modify parameters inside [.env](.env).
 4. **Optional**: Modify any parameters inside [docker-compose.yml](docker-compose.yml).
