@@ -1,0 +1,47 @@
+version: "3.9"
+services:
+  speedtest-cli:
+    build: ookla-speedtest-cli/.
+    restart: unless-stopped
+    networks:
+      - speedtest
+    env_file:
+      - .env
+    depends_on:
+      influxdb:
+        condition: service_healthy
+  influxdb:
+    image: influxdb:2.0-alpine
+    restart: unless-stopped
+    volumes:
+      -  ./influx:/var/lib/influxdb2
+    networks:
+      - speedtest
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD", "influx", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+  grafana:
+    image: grafana/grafana:latest
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+    networks:
+      - speedtest
+    environment:
+      - "GF_SERVER_ROOT_URL=http://localhost"
+      - "GF_SECURITY_ADMIN_PASSWORD=9410be280e7eb7a5c4fed6704f22c12"
+      - "GF_AUTH_ANONYMOUS_ENABLED=true"
+    depends_on:
+      influxdb:
+        condition: service_healthy
+
+networks:
+  speedtest:
