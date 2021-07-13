@@ -560,6 +560,22 @@
                 "value": 132
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Total bytes"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "locale"
+              },
+              {
+                "id": "custom.width",
+                "value": 116
+              }
+            ]
           }
         ]
       },
@@ -593,18 +609,33 @@
           "options": {}
         },
         {
+          "id": "calculateField",
+          "options": {
+            "alias": "Total bytes",
+            "mode": "reduceRow",
+            "reduce": {
+              "include": [
+                "bytes_received",
+                "bytes_sent"
+              ],
+              "reducer": "sum"
+            }
+          }
+        },
+        {
           "id": "organize",
           "options": {
             "excludeByName": {
               "download_speed_bytes": false
             },
             "indexByName": {
+              "Total bytes": 10,
               "_time": 0,
               "bytes_received": 8,
               "bytes_sent": 9,
-              "client_country_code": 10,
-              "client_ip": 11,
-              "client_isp": 12,
+              "client_country_code": 11,
+              "client_ip": 12,
+              "client_isp": 13,
               "download_speed_mbps": 5,
               "ping": 7,
               "server_country_name": 1,
